@@ -1,0 +1,24 @@
+Banana_Ripe
+Banana_Spoiled
+Banana_Unripe
+Burmese Grape_Ripe
+Burmese Grape_Spoiled
+Burmese Grape_Unripe
+Cucumber_Fresh
+Cucumber_Spoiled
+Jackfruit_Ripe
+Jackfruit_Spoiled
+Jackfruit_Unripe
+Lychee_Ripe
+Lychee_Spoiled
+Lychee_Unripe
+Mango_Ripe
+Mango_Spoiled
+Mango_Unripe
+Pineapple_Ripe
+Pineapple_Spoiled
+Pineapple_Unripe
+Pointed Gourd_Fresh
+Pointed Gourd_Spoiled
+Tomato_Fresh
+Tomato_Spoiled
