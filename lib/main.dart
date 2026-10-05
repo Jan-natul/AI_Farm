@@ -1,5 +1,3 @@
-// main.dart
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
@@ -54,14 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadModel();
   }
 
-  // Model Load
   Future<void> _loadModel() async {
     try {
       _interpreter = await Interpreter.fromAsset(
           'assets/fruit_model.tflite'
       );
 
-      // Labels load
       final labelsData = await rootBundle.loadString(
           'assets/labels.txt'
       );
@@ -77,14 +73,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // Image Preprocess + Predict
   Future<void> _predict(File imageFile) async {
     if (_interpreter == null) return;
 
     setState(() => _isLoading = true);
 
     try {
-      // Image read + resize to 224x224
       final bytes = await imageFile.readAsBytes();
       img.Image? image = img.decodeImage(bytes);
       if (image == null) return;
@@ -93,7 +87,6 @@ class _HomeScreenState extends State<HomeScreen> {
           image, width: 224, height: 224
       );
 
-      // Normalize to [0, 1]
       var input = List.generate(1, (_) =>
           List.generate(224, (y) =>
               List.generate(224, (x) {
@@ -107,15 +100,12 @@ class _HomeScreenState extends State<HomeScreen> {
           )
       );
 
-      // Output shape [1, 24] (24 classes)
       var output = List.generate(
           1, (_) => List.filled(_labels.length, 0.0)
       );
 
-      // Run prediction
       _interpreter!.run(input, output);
 
-      // Get best result
       List<double> scores = output[0];
       int maxIdx = scores.indexOf(
           scores.reduce((a, b) => a > b ? a : b)
@@ -135,7 +125,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // Pick from Camera
   Future<void> _pickCamera() async {
     final picker = ImagePicker();
     final picked = await picker.pickImage(
@@ -152,7 +141,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // Pick from Gallery
   Future<void> _pickGallery() async {
     final picker = ImagePicker();
     final picked = await picker.pickImage(
@@ -169,7 +157,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // Result Color
   Color _getColor(String result) {
     if (result.contains('Ripe') || result.contains('Fresh')) {
       return const Color(0xFF00C853);
@@ -188,7 +175,6 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              // Header
               Row(
                 children: [
                   const Icon(Icons.eco,
@@ -226,7 +212,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 24),
 
-              // Image Display
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -266,7 +251,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 20),
 
-              // Result Card
               if (_isLoading)
                 const CircularProgressIndicator(
                     color: Color(0xFF00C853)
@@ -304,7 +288,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 20),
 
-              // Buttons
               Row(
                 children: [
                   Expanded(
